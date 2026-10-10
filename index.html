@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Weather App</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{font-family:Arial;background:linear-gradient(to right,orange,#00f2fe);display:flex;justify-content:center;align-items:center;height:100vh;margin:0}
+.card{background:white;padding:25px;border-radius:15px;width:320px;text-align:center;box-shadow:0 10px 25px rgba(0,0,0,0.2)}
+input{padding:10px;width:65%;border-radius:8px;border:1px solid #ccc}
+button{padding:10px 15px;border:none;background:orange;color:white;border-radius:8px;cursor:pointer}
+#result{margin-top:20px}
+</style>
+</head>
+<body>
+<div class="card">
+<h2>🌤️ Weather App</h2>
+<input id="city" placeholder="Enter City e.g. Bhopal">
+<button onclick="getWeather()">Search</button>
+<div id="result"></div>
+</div>
+<script>
+async function getWeather(){
+let city=document.getElementById('city').value;
+if(!city)return alert("Indore");
+let url=`https://wttr.in/${city}?format=j1`;
+try{
+let res=await fetch(url);
+let data=await res.json();
+let curr=data.current_condition[0];
+let temp=curr.temp_C;
+let desc=curr.weatherDesc[0].value;
+let humid=curr.humidity;
+document.getElementById('result').innerHTML=`
+<h3>${city.toUpperCase()}</h3>
+<h1>${temp}°C</h1>
+<p>${desc}</p>
+<p>Humidity: ${humid}%</p>
+`;
+}catch(e){
+document.getElementById('result').innerHTML="City nahi mila, dobara try karo!";
+}
+}
+</script>
+</body>
+</html>
